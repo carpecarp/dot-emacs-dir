@@ -63,9 +63,9 @@
 ;; https://github.com/bbatsov/emacs.d/blob/master/init.el
 ;; bbatsov has a great emacs.el style and emacs knowledge
 ;; in general
-(unless (package-installed-p 's)
-  (package-install 's))
-(require 's)
+; (unless (package-installed-p 's)
+;   (package-install 's))
+; (require 's)
 
 ;; Stop messing with packages as with package s.el above
 (unless (package-installed-p 'use-package)
@@ -193,9 +193,9 @@
 (global-set-key (kbd "C-x <right> ") 'windmove-right)
 
 ;; flycheck setup
-(with-eval-after-load 'flycheck
-   (require 'flycheck-clang-analyzer)
-   (flycheck-clang-analyzer-setup))
+; (with-eval-after-load 'flycheck
+;    (require 'flycheck-clang-analyzer)
+;    (flycheck-clang-analyzer-setup))
 
 ;; ispell
 (setq ispell-program-name "aspell")
