@@ -32,10 +32,8 @@
  ;; If there is more than one, they won't work right.
  '(column-number-mode t)
  '(inhibit-startup-screen t)
- '(package-selected-packages
-   (quote
-    (git-gutter exec-path-from-shell use-package s )))
- '(safe-local-variable-values (quote ((flycheck-clang-language-standard . c++11))))
+ '(package-selected-packages '(magit git-gutter exec-path-from-shell use-package s))
+ '(safe-local-variable-values '((flycheck-clang-language-standard . c++11)))
  '(show-paren-mode t))
 
 
@@ -131,6 +129,23 @@
      (inline-open . 0)))
   "Bill Carp C++ Programming Style")
 
+(defconst as-c-style
+  '((indent-tabs-mode . t)
+    (tab-width . 8)
+    (c-basic-offset . 8)
+    (c-comment-only-line-offset . 0)
+    (c-hanging-braces-alist
+     (substatement-open before after))
+    (c-offsets-alist
+     (topmost-intro . 0)
+     (substatement . +)
+     (substatement-open . 0)
+     (case-label . 0)
+     (access-label . -)
+     (inclass . +)
+     (inline-open . 0)))
+  "Aerospike Programming Style")
+
 (defconst bnr-c-style
   '((c-basic-offset . 2)
     (c-comment-only-line-offset . 0)
@@ -174,11 +189,13 @@
 ;; Problem with gitgutter and display-line-numbers-mode
 ;; interaction: ~/orcadt-bill/dc_11_11_final/dc/rd/
 (defun my-c-mode-hook ()
-  (c-add-style "bcarp" bcarp-c-style t)
+  (c-add-style "bcarp" bcarp-c-style nil)
+  (c-add-style "as-c-style" as-c-style t)
   (c-add-style "bnrobo" bnr-c-style nil)
   (c-add-style "orcadt" orcadt-c-style nil)
-  (c-set-style "bcarp")
+  (c-set-style "as-c-style")
   (c-toggle-hungry-state 1)
+  (electric-pair-mode 1)
   (display-line-numbers-mode)
   (git-gutter-mode)
   )
