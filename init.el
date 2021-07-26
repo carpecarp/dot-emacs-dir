@@ -32,7 +32,8 @@
  ;; If there is more than one, they won't work right.
  '(column-number-mode t)
  '(inhibit-startup-screen t)
- '(package-selected-packages '(magit git-gutter exec-path-from-shell use-package s))
+ '(package-selected-packages
+   '(rtags magit git-gutter exec-path-from-shell use-package s))
  '(safe-local-variable-values '((flycheck-clang-language-standard . c++11)))
  '(show-paren-mode t))
 
@@ -54,6 +55,10 @@
 	(append local-first load-path)
 	)
       )
+
+(require 'rtags)
+(require 'company-rtags)
+(require 'helm-rtags)
 
 ;; String manipulation from https://github.com/magnars/s.el
 ;; "The Long Lost Emacs String Manipulation Library"
