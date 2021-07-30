@@ -1,5 +1,5 @@
-(message "starting ~/.emacs.d/init.el")
-(message (version))
+(message (concat "init.el: starting ~/.emacs.d/init.el" " at " (current-time-string)))
+(message (concat "init.el: " (version)))
 (setq ring-bell-function 'ignore)
 
 
@@ -13,17 +13,27 @@
       )
 
 (require 'package)
-(let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
-                    (not (gnutls-available-p))))
-       (proto (if no-ssl "http" "https")))
-  ;; Comment/uncomment these two lines to enable/disable MELPA and MELPA Stable as desired
-  (add-to-list 'package-archives (cons "melpa" (concat proto "://melpa.org/packages/")) t)
-  ;; (add-to-list 'package-archives (cons "melpa-stable" (concat proto "://stable.melpa.org/packages/")) t)
-  (add-to-list 'package-archives (cons "marmalade" (concat proto "://marmalade-repo.org/packages/")) t)
-  (when (< emacs-major-version 24)
-    ;; For important compatibility libraries like cl-lib
-    (add-to-list 'package-archives '("gnu" . (concat proto "://elpa.gnu.org/packages/")))))
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+(add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/"))
+
+(message (concat "init.el: here, point 1" " at " (current-time-string)))
+
+;; (let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
+;;                     (not (gnutls-available-p))))
+;;        (proto (if no-ssl "http" "https")))
+;;   ;; Comment/uncomment these two lines to enable/disable MELPA and MELPA Stable as desired
+;;   (add-to-list 'package-archives (cons "melpa" (concat proto "://melpa.org/packages/")) t)
+;;   ;; (add-to-list 'package-archives (cons "melpa-stable" (concat proto "://stable.melpa.org/packages/")) t)
+;;   (add-to-list 'package-archives (cons "marmalade" (concat proto "://marmalade-repo.org/packages/")) t)
+;;   (when (< emacs-major-version 24)
+;;     ;; For important compatibility libraries like cl-lib
+;;     (add-to-list 'package-archives '("gnu" . (concat proto "://elpa.gnu.org/packages/")))))
 (package-initialize)
+;; Stop messing with packages as with package s.el above
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -32,8 +42,6 @@
  ;; If there is more than one, they won't work right.
  '(column-number-mode t)
  '(inhibit-startup-screen t)
- '(package-selected-packages
-   '(rtags magit git-gutter exec-path-from-shell use-package s))
  '(safe-local-variable-values '((flycheck-clang-language-standard . c++11)))
  '(show-paren-mode t))
 
@@ -56,9 +64,26 @@
 	)
       )
 
-(require 'rtags)
-(require 'company-rtags)
-(require 'helm-rtags)
+;; (use-package 'company)
+;; (use-package 'company-rtags)
+
+(setq packages-to-install
+      '(projectile
+        rtags
+        helm
+        company
+	company-rtags
+        magit
+	speedbar
+	sr-speedbar
+        git-gutter))
+
+(message (concat "init.el: here, point 2" " at " (current-time-string)))
+
+;; Iterate on packages and install missing ones
+(dolist (pkg packages-to-install)
+  (unless (package-installed-p pkg)
+    (package-install pkg)))
 
 ;; String manipulation from https://github.com/magnars/s.el
 ;; "The Long Lost Emacs String Manipulation Library"
@@ -70,10 +95,14 @@
 ;   (package-install 's))
 ; (require 's)
 
+(message (concat "init.el: here, point 2c"  " at " (current-time-string)))
+
 ;; Stop messing with packages as with package s.el above
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
+;; (unless (package-installed-p 'use-package)
+;;  (package-refresh-contents)
+;;  (package-install 'use-package))
+
+(message (concat "init.el: here, point 2d"  " at " (current-time-string)))
 
 ;; from https://jamiecollinson.com/blog/my-emacs-config/
 ;; sets exec-path to be consistent with my $PATH
@@ -81,7 +110,10 @@
 (use-package exec-path-from-shell
   :ensure t
   :config
+  (setq exec-path-from-shell-arguments '("-c"))
   (exec-path-from-shell-initialize))
+
+(message (concat "init.el: here, point 3" " at " (current-time-string)))
 
 ;; This adds additional extensions which indicate files normally
 ;; handled by cc-mode.
@@ -134,10 +166,14 @@
      (inline-open . 0)))
   "Bill Carp C++ Programming Style")
 
+;;
+;; Aerospike uses tabs
+;; and a tabwidth of 4
+;;
 (defconst as-c-style
   '((indent-tabs-mode . t)
-    (tab-width . 8)
-    (c-basic-offset . 8)
+    (tab-width . 4)
+    (c-basic-offset . 4)
     (c-comment-only-line-offset . 0)
     (c-hanging-braces-alist
      (substatement-open before after))
@@ -149,7 +185,7 @@
      (access-label . -)
      (inclass . +)
      (inline-open . 0)))
-  "Aerospike Programming Style")
+  "Aerospike C Programming Style")
 
 (defconst bnr-c-style
   '((c-basic-offset . 2)
@@ -206,6 +242,8 @@
   )
 (add-hook 'c-mode-common-hook 'my-c-mode-hook)
 
+(message (concat "init.el: here, point 4" " at " (current-time-string)))
+
 ;;; (setq server-use-tcp t)
 (server-start)
 
@@ -227,6 +265,8 @@
 ;;;    :ensure t
 ;;;    :bind ("C-x g" . magit-status))
 
+(message (concat "init.el: here, point 5" " at " (current-time-string)))
+
  (use-package git-gutter
     :ensure t
     :config
@@ -240,5 +280,4 @@
  ;; If there is more than one, they won't work right.
  )
 
-(message "end ~/.emacs.d/init.el")
-
+(message (concat "init.el: " "end ~/.emacs.d/init.el" " at " (current-time-string)))
