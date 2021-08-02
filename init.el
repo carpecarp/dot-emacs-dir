@@ -2,6 +2,8 @@
 (message (concat "init.el: " (version)))
 (setq ring-bell-function 'ignore)
 
+; No tool-bar
+(menu-bar-showhide-tool-bar-menu-customize-disable)
 
 ; from https://jamiecollinson.com/blog/my-emacs-config/
 (setq backup-directory-alist '(("." . "~/.emacs.d/backup"))
@@ -242,13 +244,13 @@
   (display-line-numbers-mode)
   (git-gutter-mode)
   (if (package-installed-p 'rtags)
-      (
-       (rtags-enable-standard-keybindings)
-       (if (string= system-name "mbp-WCarpenter.local")
-	   ((setq rtags-socket-address "192.168.150.3:19191")
-	    (setq rtags-tramp-enabled t))
-	 )
-       )
+      (progn
+	(rtags-enable-standard-keybindings)
+	(if (string= system-name "mbp-WCarpenter.local")
+	    (progn (setq rtags-socket-address "192.168.152.2:19191")
+		   (setq rtags-tramp-enabled t))
+	  )
+	)
     )
   (if (or
        ;; working on Aerospike code
