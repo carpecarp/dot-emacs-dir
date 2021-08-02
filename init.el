@@ -237,8 +237,27 @@
   (c-set-style "as-c-style")
   (c-toggle-hungry-state 1)
   (electric-pair-mode 1)
+  (define-key c-mode-base-map "/" 'c-electric-slash)
+  (define-key c-mode-base-map "*" 'c-electric-star)
   (display-line-numbers-mode)
   (git-gutter-mode)
+  (if (package-installed-p 'rtags)
+      (
+       (rtags-enable-standard-keybindings)
+       (if (string= system-name "mbp-WCarpenter.local")
+	   ((setq rtags-socket-address "192.168.150.3:19191")
+	    (setq rtags-tramp-enabled t))
+	 )
+       )
+    )
+  (if (or
+       ;; working on Aerospike code
+       (string= system-name "asdevvm-wcarp")
+       (string= system-name "mbp-WCarpenter.local")
+       )
+      ;; make comment sytle "//" for as
+      (c-toggle-comment-style -1)
+    )
   )
 (add-hook 'c-mode-common-hook 'my-c-mode-hook)
 
