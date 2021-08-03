@@ -18,7 +18,7 @@
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/"))
 
-(message (concat "init.el: here, point 1" " at " (current-time-string)))
+; (message (concat "init.el: here, point 1" " at " (current-time-string)))
 
 ;; (let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
 ;;                     (not (gnutls-available-p))))
@@ -80,7 +80,7 @@
 	sr-speedbar
         git-gutter))
 
-(message (concat "init.el: here, point 2" " at " (current-time-string)))
+; (message (concat "init.el: here, point 2" " at " (current-time-string)))
 
 ;; Iterate on packages and install missing ones
 (dolist (pkg packages-to-install)
@@ -97,14 +97,14 @@
 ;   (package-install 's))
 ; (require 's)
 
-(message (concat "init.el: here, point 2c"  " at " (current-time-string)))
+; (message (concat "init.el: here, point 2c"  " at " (current-time-string)))
 
 ;; Stop messing with packages as with package s.el above
 ;; (unless (package-installed-p 'use-package)
 ;;  (package-refresh-contents)
 ;;  (package-install 'use-package))
 
-(message (concat "init.el: here, point 2d"  " at " (current-time-string)))
+; (message (concat "init.el: here, point 2d"  " at " (current-time-string)))
 
 ;; from https://jamiecollinson.com/blog/my-emacs-config/
 ;; sets exec-path to be consistent with my $PATH
@@ -115,7 +115,7 @@
   (setq exec-path-from-shell-arguments '("-c"))
   (exec-path-from-shell-initialize))
 
-(message (concat "init.el: here, point 3" " at " (current-time-string)))
+; (message (concat "init.el: here, point 3" " at " (current-time-string)))
 
 ;; This adds additional extensions which indicate files normally
 ;; handled by cc-mode.
@@ -263,7 +263,7 @@
   )
 (add-hook 'c-mode-common-hook 'my-c-mode-hook)
 
-(message (concat "init.el: here, point 4" " at " (current-time-string)))
+; (message (concat "init.el: here, point 4" " at " (current-time-string)))
 
 ;;; (setq server-use-tcp t)
 (server-start)
@@ -286,7 +286,7 @@
 ;;;    :ensure t
 ;;;    :bind ("C-x g" . magit-status))
 
-(message (concat "init.el: here, point 5" " at " (current-time-string)))
+; (message (concat "init.el: here, point 5" " at " (current-time-string)))
 
  (use-package git-gutter
     :ensure t
