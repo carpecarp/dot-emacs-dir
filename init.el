@@ -246,10 +246,6 @@
   (if (package-installed-p 'rtags)
       (progn
 	(rtags-enable-standard-keybindings)
-	(if (string= system-name "mbp-WCarpenter.local")
-	    (progn (setq rtags-socket-address "192.168.152.2:19191")
-		   (setq rtags-tramp-enabled t))
-	  )
 	)
     )
   (if (or
@@ -262,6 +258,18 @@
     )
   )
 (add-hook 'c-mode-common-hook 'my-c-mode-hook)
+
+;; once did this in the c-hook, but that made the value wrong every time...
+;; sad face
+;; should use an environment variable RDM_SOCKET_ADDRESS
+;; sad face, more work
+(if (or (string= system-name "mbp-WCarpenter.local")
+	nil
+	)
+    (progn (setq rtags-socket-address "192.168.128.20:19191")
+           (setq rtags-tramp-enabled t))
+  )
+
 
 ; (message (concat "init.el: here, point 4" " at " (current-time-string)))
 
