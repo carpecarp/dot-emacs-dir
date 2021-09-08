@@ -36,6 +36,10 @@
   (package-refresh-contents)
   (package-install 'use-package))
 
+;;; stop the "remote shell path:" prompt
+;;; use bash everywhere
+(setq explicit-shell-file-name "/bin/bash")
+
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -86,6 +90,13 @@
 (dolist (pkg packages-to-install)
   (unless (package-installed-p pkg)
     (package-install pkg)))
+
+(use-package tramp
+  :custom
+  (tramp-default-method "ssh")
+  (tramp-completion-reread-directory-timeout nil)
+  (tramp-default-remote-shell "/bin/bash")
+  (tramp-encoding-shell "/bin/bash"))
 
 ;; String manipulation from https://github.com/magnars/s.el
 ;; "The Long Lost Emacs String Manipulation Library"
