@@ -182,7 +182,26 @@
 ;;
 ;; Aerospike uses tabs
 ;; and a tabwidth of 4
-;;
+;; AS style for breaking argument lists across lines
+;; void foo()
+;; {
+;; 	// arglist-intro . +
+;; 	// arglist-cont . 0
+;; 	// arglist-cont-nonempty . +
+;; 	// arglist-close . 0
+;; 	this_is_a_long_function(
+;; 	    with_an_argument,   // <- arglist-intro
+;; 	    and_another,        // <- arglist-cont
+;;          and_yet_another,    // <- arglist-cont
+;; 	    and_yet_another_another_argument); // <- arglist-cont
+;; 	this_is_a_long_long_function(foo,
+;; 	    bar,   // <- arglist-cont-nonempty
+;; 	    bas);  // <- arglist-cont-nonempty
+;; 	while (this_is_a_long_function_name_that_will_overflow(a,
+;; 		b) == 0) {  // <- arglist-cont-nonempty
+;; 	}
+;; }
+
 (defconst as-c-style
   '((indent-tabs-mode . t)
     (tab-width . 4)
@@ -191,6 +210,10 @@
     (c-hanging-braces-alist
      (substatement-open before after))
     (c-offsets-alist
+     (arglist-intro . +)
+     (arglist-cont . 0)
+     (arglist-cont-nonempty . +)
+     (arglist-close . 0)
      (topmost-intro . 0)
      (substatement . +)
      (substatement-open . 0)
